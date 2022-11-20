@@ -1,0 +1,4 @@
+redis-server ./redis9004/redis.conf --protected-mode no
+redis-server ./redis9005/redis.conf --protected-mode no
+redis-server ./redis9006/redis.conf --protected-mode no
+ps aux | grep redis
