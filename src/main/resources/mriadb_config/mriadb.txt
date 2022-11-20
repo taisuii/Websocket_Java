@@ -1,10 +1,8 @@
 删除所有节点的两个缓存文件及/var/lock/subsys 目录下的mysql 文件，然后重新启动：
 
 rm -rf /var/lock/subsys/mysql
-
 cd /var/lib/mysql
 rm -rf galera.cache
-
 rm -rf grastate.dat
 
 第一个节点这样启动：
