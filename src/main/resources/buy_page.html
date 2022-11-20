@@ -1,0 +1,134 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Linux作业展示</title>
+
+    <script type="text/javascript">
+
+        ws = new WebSocket("ws://localhost:8080/buy");
+        if ("WebSocket" in window) {
+            ws.onopen = () => {
+                document.getElementById("Title").innerText = "1号服务器 connect success";
+                console.log("连接成功打开")
+            }
+
+            this.ws.onclose = () => {
+                document.getElementById("Title").innerText = "1号服务器 connect break";
+                console.log("连接已关闭")
+            };
+
+            this.ws.onmessage = (evt) => {
+                console.log("接口消息返回->" + evt.data)
+                let received_msg = JSON.parse(evt.data);
+                if (received_msg["method"] === "login") {
+                    received_msg["code"] === 200 ? setLoginMsg("登录成功 " + received_msg["message"]) : setLoginMsg("登录失败 " + received_msg["message"])
+                    this.id = received_msg["U_id"]
+                } else if (received_msg["method"] === "register") {
+                    received_msg["code"] === 200 ? setLoginMsg("注册成功 " + received_msg["message"]) : setLoginMsg("注册失败 " + received_msg["message"])
+                } else {
+                    received_msg["code"] === 200 ? setMsg("成功 " + received_msg["message"]) : setMsg("失败 " + received_msg["message"])
+                }
+            };
+        } else {
+            alert("您的浏览器不支持 WebSocket!");
+        }
+
+        function login() {
+            let data = JSON.stringify({
+                "method": "login",
+                "U_name": getU_name()
+            })
+            console.log("登录 消息发送->" + data)
+            send(data)
+        }
+
+        function register() {
+            let data = JSON.stringify({
+                "method": "register",
+                "U_name": getU_name(),
+                "U_type": getU_type()
+            })
+            console.log("注册 消息发送->" + data)
+            send(data)
+        }
+
+        function buying() {
+            let data = JSON.stringify({
+                "method": "buy",
+                "U_id": this.id,
+                "P_id": getP_id()
+            })
+            console.log("下单 消息发送->" + data)
+            send(data)
+        }
+
+        function send(msg) {
+            this.ws.send(msg);
+        }
+    </script>
+    <script>
+
+        function setMsg(msg) {
+            document.getElementById("msg").innerText = msg + "\n" + document.getElementById("msg").innerText;
+        }
+
+        function setLoginMsg(msg) {
+            document.getElementById("LoginMsg").innerText = msg + "\n" + document.getElementById("LoginMsg").innerText;
+        }
+
+        function getU_name() {
+            return document.getElementById("username").value;
+        }
+
+        function getU_type() {
+            return getRadioValue("user");
+        }
+
+        function getP_id() {
+            return getRadioValue("goods");
+        }
+
+        function getRadioValue(radioName) {
+            let radioValue;
+            radioValue = document.getElementsByName(radioName);
+            if (radioValue != null) {
+                let i;
+                for (i = 0; i < radioValue.length; i++) {
+                    if (radioValue[i].checked) {
+                        return radioValue[i].value;
+                    }
+                }
+            }
+            return null;
+        }
+    </script>
+</head>
+<body>
+<h1 id="Title">商品抢购中心</h1>
+
+<!--用户登录注册 获取到选中的项目 然后抢购-->
+<hr>
+<form name="users">
+    用户名：<input type="text" id="username"><br><br>
+    <input type="radio" name="user" class="U_type" value="1">普通用户<br><br>
+    <input type="radio" name="user" class="U_type" value="2">会员<br><br>
+</form>
+<button onclick="register()">注册</button>
+<button onclick="login()">登录</button>
+<h3 id="LoginMsg"></h3>
+
+<hr>
+
+<!--抢购的商品 获取到选中的项目 然后抢购-->
+<form name="goods">
+    商品:<br><br>
+    <input type="radio" name="goods" class="good" value="1">IPhone 14 <br><br>
+    <input type="radio" name="goods" class="good" value="2">保时捷911 <br><br>
+    <input type="radio" name="goods" class="good" value="3">Iphone6s <br><br>
+</form>
+<button onclick="buying()">抢购</button>
+<h3 id="msg"></h3>
+
+</body>
+</html>
