@@ -56,14 +56,14 @@ redis-server ./redis9003/redis.conf --protected-mode no
 redis-cli --cluster create 192.168.43.154:9001 192.168.43.154:9002 192.168.43.154:9003 192.168.43.71:9004 192.168.43.71:9005 192.168.43.71:9006 --cluster-replicas 1
 redis-cli -c -h 192.168.43.154 -p 9001 cluster nodes
 ```
-#### <font color="#660000">报错解决方法 卸载 redis</font>
-```
+#### 报错解决方法 卸载 redis
+
 redis-cli shutdown
 apt remove redis
 rm -rf /usr/local/bin/redis*
 rm -rf redis-3.2.1
 rm -rf /home/xl/redis
-```
+
 # mriadb 集群 
 #### galera.conf配置文件 (/etc/mysql/conf.d/galera.conf) IP换成自己的
 ```
