@@ -59,9 +59,9 @@ server {
 	location / {
         proxy_pass http://buying/buy/;
 	}
-    location /buy {
-        alias /var/www/html;
-    }
+    	location /buy {
+        	alias /var/www/html;
+    	}
 	#config 1
    	location ^~/p{
 		alias /home/www/pub;
