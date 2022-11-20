@@ -150,6 +150,7 @@ mysql_secure_installation
 
 #### 浏览器打开电脑1虚拟机IP地址
 ![image](https://user-images.githubusercontent.com/93462725/202906420-ff94f770-6e26-4a49-bdd7-2115c3604558.png)
-
+![image](https://user-images.githubusercontent.com/93462725/202908225-203cb5a1-4881-468f-8021-e1325b0aedc0.png)
+![image](https://user-images.githubusercontent.com/93462725/202908206-992c5210-d818-41ba-820d-b85cc3697857.png)
 
 
