@@ -56,9 +56,16 @@ redis-server ./redis9003/redis.conf --protected-mode no
 redis-cli --cluster create 192.168.43.154:9001 192.168.43.154:9002 192.168.43.154:9003 192.168.43.71:9004 192.168.43.71:9005 192.168.43.71:9006 --cluster-replicas 1
 redis-cli -c -h 192.168.43.154 -p 9001 cluster nodes
 ```
-
-# mriadb 集群 IP换成自己的
-#### galera.conf配置文件 (/etc/mysql/conf.d/galera.conf)
+#### 报错解决方法 卸载 redis
+```
+redis-cli shutdown
+apt remove redis
+rm -rf /usr/local/bin/redis*
+rm -rf redis-3.2.1
+rm -rf /home/xl/redis
+```
+# mriadb 集群 
+#### galera.conf配置文件 (/etc/mysql/conf.d/galera.conf) IP换成自己的
 ```
 [mysqld]
 binlog_format=ROW
@@ -85,6 +92,36 @@ galera_new_cluster
 ```
 systemctl start mariadb
 ```
+#### 导入Buy.sql 
+```
+CREATE DATABASE 数据库名;
+show databases;
+use 数据库名; // 选择数据库
+set names utf8; // 设置编码模式为utf8
+source  数据库名.sql; // 导入sql文件，需要使用文件所在的路径
+```
+#### 或执行
+```
+CREATE TABLE `Identitys` (
+  `P_id` int(11) DEFAULT NULL,
+  `U_id` int(11) DEFAULT NULL
+)
+
+CREATE TABLE `Pruduct` (
+  `P_id` int(11) NOT NULL,
+  `P_name` varchar(20) DEFAULT NULL,
+  `Price` int(11) DEFAULT NULL,
+  PRIMARY KEY (`P_id`)
+)
+
+CREATE TABLE `Users` (
+  `U_id` int(11) NOT NULL AUTO_INCREMENT,
+  `U_name` varchar(20) DEFAULT NULL,
+  `U_type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`U_id`)
+)
+```
+
 #### 常见报错问题解决方法
 Job for mariadb.service failed because the control process exited with error code.
 See "systemctl status mariadb.service" and "journalctl -xeu mariadb.service" for details.
@@ -95,11 +132,24 @@ cd /var/lib/mysql
 rm -rf galera.cache
 rm -rf grastate.dat
 ```
+Java本地无法连接mariadb
+```
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.3.8' IDENTIFIED BY 'password' WITH GRANT OPTION;
+flush privileges;
+```
+设置mysql密码
+```
+mysql_secure_installation
+```
 # IDEA打开项目
 #### util类
 #### src/main/java/Util 换自己IP
-#### 载入驱动
+#### 载入驱动 mariadb
 ![image](https://user-images.githubusercontent.com/93462725/202904542-09d24b68-5794-4836-9d75-96a63c69fdb0.png)
+
+#### 浏览器打开电脑1虚拟机IP地址
+![image](https://user-images.githubusercontent.com/93462725/202906420-ff94f770-6e26-4a49-bdd7-2115c3604558.png)
 
 
 
