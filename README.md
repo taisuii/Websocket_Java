@@ -56,7 +56,7 @@ redis-server ./redis9003/redis.conf --protected-mode no
 redis-cli --cluster create 192.168.43.154:9001 192.168.43.154:9002 192.168.43.154:9003 192.168.43.71:9004 192.168.43.71:9005 192.168.43.71:9006 --cluster-replicas 1
 redis-cli -c -h 192.168.43.154 -p 9001 cluster nodes
 ```
-#### 报错解决方法 卸载 redis
+#### <font color="#660000">报错解决方法 卸载 redis</font>
 ```
 redis-cli shutdown
 apt remove redis
