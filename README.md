@@ -133,9 +133,12 @@ rm -rf galera.cache
 rm -rf grastate.dat
 ```
 Java本地无法连接mariadb
+编辑 /etc/mysql/mariadb.conf.d/50-server.cnf 
+注释掉bind-address = 127.0.0.1或修改成bind-address = 0.0.0.0
 ```
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.3.8' IDENTIFIED BY 'password' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'russell' WITH GRANT OPTION; FLUSH PRIVILEGES;
 flush privileges;
 ```
 设置mysql密码
